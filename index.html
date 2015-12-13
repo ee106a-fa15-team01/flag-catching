@@ -64,19 +64,20 @@ Automatic industrial fork truck (trucks with a function of picking up goods at a
 <h2>
 <a id="design-criteria" class="anchor" href="#design-criteria" aria-hidden="true"><span class="octicon octicon-link"></span></a>Design criteria</h2>
 
-<ol>
-<li>Hardware constructions:
+<h3>
+<a id="hardware-constructions" class="anchor" href="#hardware-constructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hardware constructions</h3>
 
 <ol>
 <li>If N Zumys are set in the game, N+3 AR tags in total( +3 each stands for the origin, the goal and one for boundary need) are needed.
-pic 4 here</li>
-<li>The game field must be smaller than 90 (cm) *105 (cm) regarding to the limitation of camera vision.</li>
+c 4 here</li>
+<li>The game field must be smaller than 90 (cm) x 105 (cm) regarding to the limitation of camera vision.</li>
 <li>To minimize the errors of coordinate recognition, the camera are set to be on the right top of the origin AR tag</li>
 <li>Fully charged batteries for Zumys is desirable in order to solve the problem caused by velocity differences between Zumys, but it has been solved by using PID controller on Zumy</li>
 <li>All the AR tags should be recognized well by the camera all the time</li>
 </ol>
-</li>
-<li>Coordinate transform:
+
+<h3>
+<a id="coordinate-transform" class="anchor" href="#coordinate-transform" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coordinate transform</h3>
 
 <ol>
 <li>Scale the real world ground into a virtual grid</li>
@@ -84,34 +85,42 @@ pic 4 here</li>
 <li>Coordinate transform is completed by the tf. lookup transform which transforms the coordinate seen from the camera to the ground coordinate. </li>
 <li>Ground frame is formed by placing an AR tag on the ground and set it to be the reference origin for this frame</li>
 </ol>
-</li>
-<li>Complete path planning by using potential field method:
+
+<h3>
+<a id="complete-path-planning-by-using-potential-field-method" class="anchor" href="#complete-path-planning-by-using-potential-field-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Complete path planning by using potential field method</h3>
 
 <ol>
 <li>Using the following function in our code:
 U_obstacle=(1/√(1+〖dist(q,obstacle)〗^6 ))^2 dist(q, goal)^2, when p &gt; dist(q, obstacle)
 U_obstacle = 0                              , when p &lt; dist(q, obstacle)
-pihere</li>
+here</li>
 <li>Make the potential field into a readable window which can show us the current potential field value for each current location. 
 pic 6 here</li>
-</ol>
-</li>
 </ol>
 
 <h2>
 <a id="design-we-chose" class="anchor" href="#design-we-chose" aria-hidden="true"><span class="octicon octicon-link"></span></a>Design we chose</h2>
 
-<ol>
-<li><p>Hardware constructions:
-“Zumy” is the robot we’re using in this project. It’s provided by EECS department in UC, Berkeley.<br>
-pic 7 here</p></li>
-<li><p>Coordinate transform:
-There are two ways to fulfill this part. The first one is using the camera on the Zumy itself. Difficulty is that it’s hard to locate every single Zumy in the world frame unless we have a visual map for them. The method we chose is based on using AR tags and one camera. It’s much simpler than the first one. </p></li>
-<li><p>Construct path planning by constructing a virtual potential field:
-We chose potential field instead of optimal control. One reason is potential field is easier to understand. The smaller the value of it, the higher preference for the object moving to it. The other reason is that we didn’t add cost and punishment to the steps the Zumy takes, so there’s no need to use other methods to do the motion planning. That is, potential field is a contrarily easier way for us to accomplish our design goals in an efficient way.</p></li>
-<li><p>About applying discrete or continuous time:
-As mentioned in the previous page, we scale the ground into grids which means the Zumys will move in a discrete way. In other words, Zumys will have to reach each current desired point or it won’t be able to do the next path planning. On the other hand, there’s a continuous time method. In this way, the Zumy will have a non-stop motion which means it can move faster. The problem is that it would cause location errors in the end which is hard to adjust. This problem is basically caused by hardware limitation, such as drifting problems. It happens especially when the velocity changes from angular to linear.    </p></li>
-</ol>
+<h3>
+<a id="hardware-constructions-1" class="anchor" href="#hardware-constructions-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hardware constructions</h3>
+
+<p>"Zumy" is the robot we’re using in this project. It’s provided by EECS department in UC, Berkeley.<br>
+ pic 7 here</p>
+
+<h3>
+<a id="coordinate-transform-1" class="anchor" href="#coordinate-transform-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coordinate transform</h3>
+
+<p>There are two ways to fulfill this part. The first one is using the camera on the Zumy itself. Difficulty is that it’s hard to locate every single Zumy in the world frame unless we have a visual map for them. The method we chose is based on using AR tags and one camera. It’s much simpler than the first one. </p>
+
+<h3>
+<a id="construct-path-planning-by-constructing-a-virtual-potential-field" class="anchor" href="#construct-path-planning-by-constructing-a-virtual-potential-field" aria-hidden="true"><span class="octicon octicon-link"></span></a>Construct path planning by constructing a virtual potential field</h3>
+
+<p>We chose potential field instead of optimal control. One reason is potential field is easier to understand. The smaller the value of it, the higher preference for the object moving to it. The other reason is that we didn’t add cost and punishment to the steps the Zumy takes, so there’s no need to use other methods to do the motion planning. That is, potential field is a contrarily easier way for us to accomplish our design goals in an efficient way.</p>
+
+<h3>
+<a id="about-applying-discrete-or-continuous-time" class="anchor" href="#about-applying-discrete-or-continuous-time" aria-hidden="true"><span class="octicon octicon-link"></span></a>About applying discrete or continuous time</h3>
+
+<p>As mentioned in the previous page, we scale the ground into grids which means the Zumys will move in a discrete way. In other words, Zumys will have to reach each current desired point or it won’t be able to do the next path planning. On the other hand, there’s a continuous time method. In this way, the Zumy will have a non-stop motion which means it can move faster. The problem is that it would cause location errors in the end which is hard to adjust. This problem is basically caused by hardware limitation, such as drifting problems. It happens especially when the velocity changes from angular to linear.    </p>
 
 <h2>
 <a id="impactions-encountered" class="anchor" href="#impactions-encountered" aria-hidden="true"><span class="octicon octicon-link"></span></a>Impactions Encountered</h2>
@@ -140,83 +149,97 @@ If we got a video here!!!!! </li>
 
 <p>(rqt_graph) pic 9 here 
 Zumy 5a is the runner; Zumy 1b and 1c are the catchers (three Zumys in total).
-tf delivers the coordinates of the AR tags ( Zumys, origin and goal) to 5a,1b,1c. 
-The chaser Zumys are all sharing the same module to calculate the potential value while the runner Zumy only calculate its own potential field.
-After the calculation, the grid with the smallest potential value will be chose as the next desired coordinate.
-After knowing the next assigned point, the Zumys all share the same controlling code. The camera information is included in the code, so the Zumys can move to the next point according to the coordinate information. After finishing each step, coordinates will be evaluated to see if it’s already caught the flag or not. Either side who win the game will publish a “game over” message to the game status topic. All the Zumys are subscribed to this game status topic, so all the velocity commands on the Zummys will become zero (it stops).</p>
+tf delivers the coordinates of the AR tags ( Zumys, origin and goal) to 5a,1b,1c. </p>
+
+<p>The chaser Zumys are all sharing the same module to calculate the potential value while the runner Zumy only calculate its own potential field.</p>
+
+<p>After the calculation, the grid with the smallest potential value will be chose as the next desired coordinate.</p>
+
+<p>After knowing the next assigned point, the Zumys all share the same controlling code. The camera information is included in the code, so the Zumys can move to the next point according to the coordinate information. After finishing each step, coordinates will be evaluated to see if it’s already caught the flag or not. Either side who win the game will publish a "game over" message to the game status topic. All the Zumys are subscribed to this game status topic, so all the velocity commands on the Zummys will become zero (it stops).</p>
 
 <h1>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h1>
 
-<p>(a) Coordinate transform:
-It works quite well after we put an AR tag as a referenced origin. Of course adjust the camera configuration will minimize the error. Also, a filter is wrote in the code for Zumys to get rid of way-off information given from the camera.</p>
+<h2>
+<a id="coordinate-transform-2" class="anchor" href="#coordinate-transform-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coordinate transform</h2>
 
-<p>(b) Complete path planning by using potential field method:
-In order to have a better insight of the parameters in the function we’re using. We test it out and then observe the result. The effective range of the obstacles can be adjusted by increasing or decreasing the parameters in the function. The function fits any situation now.</p>
+<p>It works quite well after we put an AR tag as a referenced origin. Of course adjust the camera configuration will minimize the error. Also, a filter is wrote in the code for Zumys to get rid of way-off information given from the camera.</p>
 
-<p>(c) Motion of the Zummy:
-To improve the motion of Zumys and solve the problem list previously (problem 4.), a forward linear velocity is added to steps with pure rotation.<br>
-(d) Final Video, picture</p>
+<h2>
+<a id="complete-path-planning-by-using-potential-field-method-1" class="anchor" href="#complete-path-planning-by-using-potential-field-method-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Complete path planning by using potential field method</h2>
+
+<p>In order to have a better insight of the parameters in the function we’re using. We test it out and then observe the result. The effective range of the obstacles can be adjusted by increasing or decreasing the parameters in the function. The function fits any situation now.</p>
+
+<h2>
+<a id="motion-of-the-zummy" class="anchor" href="#motion-of-the-zummy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Motion of the Zummy</h2>
+
+<p>To improve the motion of Zumys and solve the problem list previously (problem 4.), a forward linear velocity is added to steps with pure rotation.  </p>
+
+<h2>
+<a id="final-video-picture" class="anchor" href="#final-video-picture" aria-hidden="true"><span class="octicon octicon-link"></span></a>Final Video, picture</h2>
 
 <h1>
 <a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h1>
 
-<p>(a) Most of the coordinate errors have been eliminated.</p>
+<ol>
+<li>Most of the coordinate errors have been eliminated.</li>
+<li>The extra linear velocity added to the pure rotations doesn’t seem to be obvious. The reason is because of the scale for each grid is not big enough for us to see the curve path it performs. However, it keeps Zumys from trapping. </li>
+<li>The function we’re using for calculating the potential field has been modified quite well. The runner can move forward to the flag and avoiding the chasers well at the same time. 
+he performances of the chasers are good enough to catch the runner and keeps itself from crashing into other chasers.</li>
+<li>We are able to stop the Zumy correctly by using the "game over" topic.</li>
+</ol>
 
-<p>(b) The extra linear velocity added to the pure rotations doesn’t seem to be obvious. The reason is because of the scale for each grid is not big enough for us to see the curve path it performs. However, it keeps Zumys from trapping. </p>
+<h2>
+<a id="particular-difficulties" class="anchor" href="#particular-difficulties" aria-hidden="true"><span class="octicon octicon-link"></span></a>Particular difficulties</h2>
 
-<p>(c) The function we’re using for calculating the potential field has been modified quite well. The runner can move forward to the flag and avoiding the chasers well at the same time. </p>
-
-<p>The performances of the chasers are good enough to catch the runner and keeps itself from crashing into other chasers.</p>
-
-<p>(d) We are able to stop the Zumy correctly by using the” game over” topic.</p>
-
-<p>Particular difficulties:</p>
-
-<p>(a)Zumys lose connection to computers easily. </p>
-
-<p>(b)Better way of controlling the velocity of the Zumy.</p>
-
-<p>(c)The axis saw on rviz was flipping all the time because of the errors caused by the camera especially when two AR tags get too close to each other. </p>
-
-<p>(d)Continuous time method applied to Zumy’s motion turns out to have greater coordinate errors. Discrete method is contrarily a stable way to meet our goals.</p>
-
-<p>(e)Zumys get trapped in a local minima situation.</p>
+<ol>
+<li>Zumys lose connection to computers easily. </li>
+<li>Better way of controlling the velocity of the Zumy.</li>
+<li>The axis saw on rviz was flipping all the time because of the errors caused by the camera especially when two AR tags get too close to each other. </li>
+<li>Continuous time method applied to Zumy’s motion turns out to have greater coordinate errors. Discrete method is contrarily a stable way to meet our goals.</li>
+<li>Zumys get trapped in a local minima situation.</li>
+</ol>
 
 <h1>
 <a id="improvements-in-the-future" class="anchor" href="#improvements-in-the-future" aria-hidden="true"><span class="octicon octicon-link"></span></a>Improvements in the future</h1>
 
-<p>(a)Continuous time method should also work correctly. </p>
-
-<p>(b)Zumys shouldn’t be trapped in a local minimum value.  </p>
-
-<p>(c)Filter used for the camera can be improved.</p>
-
-<p>(d)For “game over” topic, all the Zumys should stop immediately instead of finishing its current step then stop.</p>
-
-<p>(e)Try to optimize the effect between the chasers Zummy, so that chaser can cooperate with each other to catch the runner.</p>
-
-<p>(f)Try to apply kalman filter</p>
+<ol>
+<li>Continuous time method should also work correctly. </li>
+<li>Zumys shouldn’t be trapped in a local minimum value.<br>
+</li>
+<li>Filter used for the camera can be improved.</li>
+<li>For "game over" topic, all the Zumys should stop immediately instead of finishing its current step then stop.</li>
+<li>Try to optimize the effect between the chasers Zummy, so that chaser can cooperate with each other to catch the runner.</li>
+<li>Try to apply kalman filter</li>
+</ol>
 
 <h1>
 <a id="team-members" class="anchor" href="#team-members" aria-hidden="true"><span class="octicon octicon-link"></span></a>Team members</h1>
 
-<p>(a)Liu Yang</p>
+<h2>
+<a id="liu-yang" class="anchor" href="#liu-yang" aria-hidden="true"><span class="octicon octicon-link"></span></a>Liu Yang</h2>
 
 <p>A senior, exchange student from China, Beijing Institute of Technology majoring in Electrical Engineering</p>
 
-<p>(b)Hsiu-Wei Chang</p>
+<h2>
+<a id="hsiu-wei-chang" class="anchor" href="#hsiu-wei-chang" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hsiu-Wei Chang</h2>
 
 <p>A junior, exchange student from Taiwan, National Changhua University of Education majoring in Electrical Engineering.</p>
 
-<p>大家填填</p>
+<h2>
+<a id="rui-zhang-z-rui" class="anchor" href="#rui-zhang-z-rui" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rui Zhang (<a href="https://github.com/z-rui" class="user-mention">@z-rui</a>)</h2>
 
-<p>(c)Rui Zhong</p>
+<p>I am a junior student from <a href="http://www.njust.edu.cn/">Nanjing University of Science and Technology</a>. Good at Python and C programming. As an exchange student in Berkeley I took EE C106A, EE 120 and CS 61C this semester.</p>
 
-<p>(d)Yang Yue</p>
+<h2>
+<a id="yang-yue" class="anchor" href="#yang-yue" aria-hidden="true"><span class="octicon octicon-link"></span></a>Yang Yue</h2>
+
+<p>TODO</p>
 
 <h1>
 <a id="fail-videos" class="anchor" href="#fail-videos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fail videos</h1>
+
+
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ee106a-fa15-team01/flag_catching">Flag catching</a> is maintained by <a href="https://github.com/ee106a-fa15-team01">ee106a-fa15-team01</a>.</span>
