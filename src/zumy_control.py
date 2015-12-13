@@ -47,7 +47,7 @@ def goto(point):
             arrived = True
         elif abs(y) >= .01:
             w = math.copysign(ROT_VEL, y)
-            twist=Twist(Vector3(LINEAR_VEL,0,0),Vector3(0,0,ROT_VEL))
+            twist=Twist(Vector3(LINEAR_VEL,0,0),Vector3(0,0,w))
         else:
             twist=Twist(Vector3(LINEAR_VEL,0,0),Vector3(0,0,0))
         #print twist
