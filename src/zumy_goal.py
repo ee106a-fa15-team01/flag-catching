@@ -49,7 +49,7 @@ def follow_ar_tag():
                 im.resize((800, 800)).save('out.png')
                 point = pf.find_nextstep(f, src_coord)
                 print 'going to', point
-                zumy_control.goto(ftrans(point), .1, .15)
+                zumy_control.goto(ftrans(point))
                 #raw_input('press enter for next step')
             except tf.Exception:
                 zumy_control.stop()
@@ -77,7 +77,7 @@ def follow_ar_tag():
                 im.resize((800, 800)).save('out.png')
                 point = pf.find_nextstep(f, src_coord)
                 print 'going to', point
-                zumy_control.goto(ftrans(point), .1, .15)
+                zumy_control.goto(ftrans(point))
                 #raw_input('press enter for next step')
             except tf.Exception:
                 zumy_control.stop()

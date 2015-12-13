@@ -10,10 +10,14 @@ zumy_vel = None
 zumy_artag = None
 origin = None
 
+LINEAR_VEL = .05
+PURE_ROT_VEL = .8
+ROT_VEL = .15
+
 def stop():
     zumy_vel.publish(Twist(Vector3(0.0,0,0),Vector3(0,0,0)))
 
-def goto(point, v, w):
+def goto(point):
     rate = rospy.Rate(10)
     arrived = False
     while not arrived:
@@ -22,12 +26,12 @@ def goto(point, v, w):
             continue
         print 'rotating', (x, y)
         if x<-0.01 or abs(y) >= .035:
-            ww = math.copysign(w, y)
+            w = math.copysign(PURE_ROT_VEL, y)
             #if abs(v) > .15:
             #   v = math.copysign(.15, y)
-            twist=Twist(Vector3(0,0,0),Vector3(0,0,ww))
+            twist=Twist(Vector3(0,0,0),Vector3(0,0,w))
         else:
-            twist=Twist(Vector3(v,0,0),Vector3(0,0,0))
+            twist=Twist(Vector3(LINEAR_VEL,0,0),Vector3(0,0,0))
             arrived = True
         zumy_vel.publish(twist)
         rate.sleep()
@@ -39,13 +43,13 @@ def goto(point, v, w):
             continue
         print (x, y)
         if x <= 0.01:
-            twist=Twist(Vector3(v/2.0,0,0),Vector3(0,0,0))
+            twist=Twist(Vector3(LINEAR_VEL/2.0,0,0),Vector3(0,0,0))
             arrived = True
         elif abs(y) >= .01:
-            ww = math.copysign(.03, y)
-            twist=Twist(Vector3(v,0,0),Vector3(0,0,ww))
+            w = math.copysign(ROT_VEL, y)
+            twist=Twist(Vector3(LINEAR_VEL,0,0),Vector3(0,0,ROT_VEL))
         else:
-            twist=Twist(Vector3(v,0,0),Vector3(0,0,0))
+            twist=Twist(Vector3(LINEAR_VEL,0,0),Vector3(0,0,0))
         #print twist
         zumy_vel.publish(twist)
         rate.sleep()

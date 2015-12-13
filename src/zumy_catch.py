@@ -42,7 +42,7 @@ def follow_ar_tag():
                 )
                 point = pf.find_nextstep(f, src_coord)
                 print 'going to', point
-                zumy_control.goto(ftrans(point), .1, .18)
+                zumy_control.goto(ftrans(point))
                 #raw_input('press enter for next step')
             except tf.Exception:
                 zumy_control.stop()
