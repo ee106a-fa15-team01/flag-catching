@@ -20,39 +20,38 @@
 
     <section class="main-content">
       <h2>
-<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+<a id="1-introduction" class="anchor" href="#1-introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>(1) Introduction</strong>
+</h2>
 
-<p>TODO</p>
+<p>(a) End goals:
+The runner Zumy should reach the goal and return to its home region afterward without touched by the chaser Zumy. For chaser Zumy, to catch the runner is the only thing it has to do.</p>
 
-<h2>
-<a id="design" class="anchor" href="#design" aria-hidden="true"><span class="octicon octicon-link"></span></a>Design</h2>
+<p>That is, the goal for the runner is first the flag then the home region. At the same time, the chaser is an obstacle for it. Vice and versa, the runner is the goal for the chaser and the other chasers are obstacles for it.</p>
 
-<p>TODO</p>
+<h1>
+<a id="pic-2-and-pic-3-here-parallel-would-be-nice" class="anchor" href="#pic-2-and-pic-3-here-parallel-would-be-nice" aria-hidden="true"><span class="octicon octicon-link"></span></a>pic 2 and pic 3 here (parallel would be nice)</h1>
 
-<h2>
-<a id="implementation" class="anchor" href="#implementation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementation</h2>
+<p>The runner should be able to identify and also locate the goal, home region and the point where the chaser locates at. Based on these information, we can calculate the potential field for the current location. By comparing the magnitude of the potential field we got from the function, the latest coordinate for next step can be found. </p>
 
-<p>TODO</p>
+<p>By comparing the current location of the Zumy seen by the camera with the new coordinate for next step, we can assign the Zumy toward that point till it reaches the point.</p>
 
-<h2>
-<a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h2>
+<p>Since all the chaser are designed to avoid other chasers, it tends to approach the runner from different directions which could make them easier to win compared to the runner.</p>
 
-<p>TODO</p>
+<p>(b) Why is it interesting? 
+The idea is based on a video game called pac-man. It would be an interesting game base on the reason that many unpredictable elements in the real world may affect the game result which could barely be observed only by coding. Besides, we can add more than one chaser in this game and to see how the runner escapes from of be caught by them.</p>
 
-<h2>
-<a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h2>
+<p>Another interesting part for this project is the implementation of potential field hence optimize our controlling on path planning. For this part, we modify our ways of calculating the potential field over and over again by observing the real results happened on the game field. </p>
 
-<p>TODO</p>
+<p>The problems we have to solve are listed below:
+1.  How to avoid obstacles and move to objects?
+2.  How to locate each objects seen in either the camera frame or ground frame?
+3.  How to control the Zumys well during the game?</p>
 
-<h2>
-<a id="team" class="anchor" href="#team" aria-hidden="true"><span class="octicon octicon-link"></span></a>Team</h2>
-
-<p>TODO</p>
-
-<h2>
-<a id="additional-materials" class="anchor" href="#additional-materials" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional Materials</h2>
-
-<p>TODO</p>
+<p>(c) Application in real-world? 
+1.  Highly-autonomous cars
+2.  Increase human safety:<br>
+Automatic industrial fork truck (trucks with a function of picking up goods at a given location or carry it back to an assigned home region. The trucks should be able to avoid other trucks and people during the task).
+3.  Autonomous constructional vehicles which pedrail wheels are used for   them, so they tend to have similar moving pattern to Zumy due to the friction conditions. Based on this, the way of controlling the pedrail system should be similar).</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ee106a-fa15-team01/flag_catching">Flag catching</a> is maintained by <a href="https://github.com/ee106a-fa15-team01">ee106a-fa15-team01</a>.</span>
