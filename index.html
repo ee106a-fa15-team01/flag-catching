@@ -27,14 +27,14 @@
 <h2>
 <a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
 
-<p>For this project, we set a game called <em>Flag Catching</em>. The rule is quite simple: Two sides play on the ground. One side is the <em>attacker</em>: it tries to catch the flag on the ground, and after that returns to it's home region. The other side is the <em>defender</em>: it tries to catch the attacker. The roles of the attacker and defender is somewhat similar to theif and policeman.</p>
+<p>For this project, we set a game called <em>Flag Catching</em>. The rule is quite simple: Two sides play on the ground. One side is the <em>attacker</em>: it tries to catch the flag on the ground, and after that returns to it's home region. The other side is the <em>defender</em>: it tries to catch the attacker. The roles of the attacker and defender is somewhat similar to thief and policeman.</p>
 
 <p>The game ends when the attacker successfully returns to the home region without being caught (the attacker wins), or the defender catches the attacker (the defender wins).</p>
 
 <h2>
 <a id="interesting-parts-in-this-project" class="anchor" href="#interesting-parts-in-this-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interesting Parts in This Project</h2>
 
-<p>It is fun to watch the game, since the result is unpredicable. </p>
+<p>It is fun to watch the game, since the result is unpredictable. </p>
 
 <p>It is related to path planning and control that we learned in the class.</p>
 
@@ -72,7 +72,7 @@
 
 <p>We use a 2D discrete coordinate system for the robots. Every object is inside a square grid, and the playing area is a rectangle. The grid size should be small so that our control is sufficiently precise, but big enough so that we do not lose control of the robots. We need to find a balance between precision and stability.</p>
 
-<p>The advantage of using a coordinate grid is that many path planning algorithms can be directly applied. The disadvantage is that the robots will move in a polyline instead of a smooth curve. This may result in dumb robots and the not very competitive play.</p>
+<p>The advantage of using a coordinate grid is that many path planning algorithms can be directly applied. The disadvantage is that the robots will move in a ploy line instead of a smooth curve. This may result in dumb robots and the not very competitive play.</p>
 
 <h3>
 <a id="one-attacking-robot-variable-number-of-defending-robots" class="anchor" href="#one-attacking-robot-variable-number-of-defending-robots" aria-hidden="true"><span class="octicon octicon-link"></span></a>One Attacking Robot, Variable Number of Defending Robots</h3>
@@ -90,7 +90,7 @@
 
 <p>For a defending robot, the attacking robot corresponds to a low potential while other defending robots each correspond a high potential.</p>
 
-<p>When doing path planning, each robot chooses a neighbour grid such that has the lowest potential as its next step. In this way, the robots tend to keep away from the obstacles and get close to its destination.</p>
+<p>When doing path planning, each robot chooses a neighbor grid such that has the lowest potential as its next step. In this way, the robots tend to keep away from the obstacles and get close to its destination.</p>
 
 <p>The path planning is done incrementally. We do not have a full path until the game ends.</p>
 
@@ -115,7 +115,7 @@
 
 <p>The steps for different robots are not synchronized. That is, for example, if the some robot finished its step earlier than others, it will continue to execute its next step and not wait for others to finish their current step.</p>
 
-<p>It turns out that different robots often take different time to finish a single step. According to the game rules, there is really no need for the robots to wait for each other within a step. Therefore, this desicion made our implementation play more smoothly. However, with this design we cannot apply other path planning algorithms that requires the moves to be synchronized (such as dynamic programming alogrithms).</p>
+<p>It turns out that different robots often take different time to finish a single step. According to the game rules, there is really no need for the robots to wait for each other within a step. Therefore, this decision made our implementation play more smoothly. However, with this design we cannot apply other path planning algorithms that requires the moves to be synchronized (such as dynamic programming algorithms).</p>
 
 <h1>
 <a id="implementation" class="anchor" href="#implementation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementation</h1>
@@ -176,7 +176,7 @@
 
 <p>In this section, we describe how an attacking Zumy works. A defending Zumy works almost identically, except that it has a different potential field.</p>
 
-<p>Please refer to README for directions of configuring and running the package.</p>
+<p>Please refer to <a href="https://github.com/ee106a-fa15-team01/flag_catching/blob/master/README.md">README</a> for directions of configuring and running the package.</p>
 
 <h3>
 <a id="initialization" class="anchor" href="#initialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Initialization</h3>
@@ -223,7 +223,7 @@
 
 <ol>
 <li>It translate the destination grid into the Zumy's coordinate system. We will call the coordinates x and y.</li>
-<li>(Simple filter) If the destination is too far away from the Zumy's current location, considering the fact that the path planner always gives a neighbour grid, we assert that this destination grid is invalid and it might be a result of mesurement errors. The controller will do nothing in this iteration.</li>
+<li>(Simple filter) If the destination is too far away from the Zumy's current location, considering the fact that the path planner always gives a neighbor grid, we assert that this destination grid is invalid and it might be a result of measurement errors. The controller will do nothing in this iteration.</li>
 <li>If the destination is valid, it checks if x is positive and the absolute value of y is smaller than a threshold. If so, then the loop will terminate. Otherwise, the controller sends zumy a pure rotational velocity that has the same sign as y.</li>
 <li>The controller will sleep for 0.1 second before the next iteration.</li>
 </ol>
@@ -325,7 +325,7 @@
 
 <ol>
 <li>(+) Every side has a chance to win.</li>
-<li>(+) The Zumys do not waste time on anything not benefitial (for example, stay still, move in the opposite direction to its target, or waiting for other Zumys to finish a step).</li>
+<li>(+) The Zumys do not waste time on anything not beneficial (for example, stay still, move in the opposite direction to its target, or waiting for other Zumys to finish a step).</li>
 <li>(+/-) The potential field does not give any clever moves. But since both the attacker and the defender use the potential field, the game is fair and still competitive.</li>
 <li>(-) However, the Zumys are moving slowly due to limited measurement rates. This might make the game look less exciting. If we make the Zumys move faster, then the measurements are not accurate and it is more likely that Zumys will run out of control.</li>
 </ol>
@@ -359,7 +359,7 @@
 <li>A flaw in our design is that when executing a single step, the Zumy is not responding to the changes in the playing area (due to <a href="#discrete-moves">discrete moves</a>).
 
 <ul>
-<li>For example, when the attacking Zumy is turning around, a defending Zumy is comming close. The attacking Zumy will not notice this and keeps rotating, then get caught by the defender.</li>
+<li>For example, when the attacking Zumy is turning around, a defending Zumy is coming close. The attacking Zumy will not notice this and keeps rotating, then get caught by the defender.</li>
 <li>The better idea for the attacking Zumy might be that it should give up the current step, stop turning around (and probably do another path planning) and move forward so that it keeps away from the defending Zumy.</li>
 </ul>
 </li>
