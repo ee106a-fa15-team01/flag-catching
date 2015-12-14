@@ -22,6 +22,8 @@
       <h1>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h1>
 
+<p><img src="pic1.png" alt="Flag Catching"></p>
+
 <h2>
 <a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
 
@@ -125,7 +127,13 @@
 <li>
 <a href="https://wiki.eecs.berkeley.edu/biomimetics/Main/Zumy">Zumy</a> is the robot used in this project. It is provided by EECS department in UC Berkeley. <br> <img src="pic7.jpg" alt="Zumy">
 </li>
-<li>N Zumys (N=1,2,3,...) and N+3 ARTags are used. The N ARTags are for the Zumys. The additional 3 ARTags are used for marking the origin point, the flag and the boundary of the playing area.</li>
+<li>N Zumys (N=1,2,3,...) and N+3 ARTags are used.
+
+<ul>
+<li>The N ARTags are for the Zumys.</li>
+<li>The additional 3 ARTags are used for marking the origin point, the flag and the boundary of the playing area.</li>
+</ul>
+</li>
 <li>The camera is fixed on the top of a coat rack, and put the origin ARTag on the ground and very close to the rack.</li>
 <li>The origin ARTag marks a corner of the playing area. We use the boundary ARTag to mark the opposing corner of the playing area. (The playing area is a rectangle.)</li>
 <li>The ARTags for the Zumys are installed on the top of the Zumys, in such a way that the +x axis points towards zumys' forward direction.</li>
@@ -176,7 +184,7 @@
 <li>After the second infinite loop, the game is over. And the node will let the Zumy stop. Now the user can rearrange the objects on the playing area and then replay the game.</li>
 </ol>
 
-<p>It may be worthwhile to mention that for a defending Zumy there is not a second infinite loop, because its destination is always the attacking Zumy. And a defending Zumy will send a game over message once it gets close enough to the attacking Zumy.</p>
+<p>It may be worth mentioning that for a defending Zumy there is not a second infinite loop, because its destination is always the attacking Zumy. And a defending Zumy will send a game over message once it gets close enough to the attacking Zumy.</p>
 
 <h3>
 <a id="the-position-controller" class="anchor" href="#the-position-controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Position Controller</h3>
@@ -222,16 +230,21 @@
 <a id="the-potential-field" class="anchor" href="#the-potential-field" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Potential Field</h3>
 
 <ol>
-<li>Using the following function in our code:
-U_obstacle=(1/√(1+〖dist(q,obstacle)〗^6 ))^2 dist(q, goal)^2, when p &gt; dist(q, obstacle)
-U_obstacle = 0                              , when p &lt; dist(q, obstacle)</li>
-<li>By properly scaling, the Zumys can keep an appropriate distance from obstacles.</li>
+<li>Using the following function in our code: <br> <img src="eqn1.png" alt="U\_obstacle(q)={(1/sqrt(1+dist(q,obstacle)^6))^2\*dist(q,goal)^2 when dist(q,goal)&amp;lt;p; 0 else}">
+
+<ul>
+<li>where p is a positive constant denoting the distance of influence of the obstacle.</li>
+</ul>
+</li>
+<li>By properly scaling, the Zumys can keep an appropriate distance from obstacles. <br> <img src="pic5.png" alt="Plot of 1/sqrt(1+x^6)"> The contribution to the potential from an obstacle.</li>
 <li>For the attacking Zumy, the potential field is saved to an image file (<code>out.png</code>) after every path planning. Open the image file while the game is running, and if the image viewer can automatically reloads the image when it is changed (the image viewer on Lab computers seem to have that feature), then the user can see the game state dynamically on the screen.</li>
 </ol>
 
 <p><img src="pic6.png" alt="Potential Field"></p>
 
-<p>Note that in the above picture the entire path is drawn. This is only for testing purpose and is not the behavior of the current implementation.</p>
+<p>Brighter means higher potential.</p>
+
+<p>Note that in the above picture the entire path is drawn in green. This is only for testing purpose and is not the behavior of the current implementation.</p>
 
 <h1>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h1>
