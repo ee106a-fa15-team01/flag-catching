@@ -143,9 +143,27 @@
 </ul>
 
 <h2>
-<a id="code-detail-diagram-flow-charts-launch-files-urdf" class="anchor" href="#code-detail-diagram-flow-charts-launch-files-urdf" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code detail (diagram, flow charts, launch files, URDF….)</h2>
+<a id="code-detail" class="anchor" href="#code-detail" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Detail</h2>
 
-<p>Please see the <a href="https://github.com/ee106a-fa15-team01/flag_catching">GitHub repository</a>.</p>
+<p><img src="arch.png" alt="Program architecture"></p>
+
+<p>The core programs are <code>zumy_goal.py</code> and <code>zumy_catch.py</code>. The former runs a ROS node for an attacking Zumy. The behavior of the node is described in <a href="#run-zumy-nodes">another section</a>. The latter runs a similar ROS node, but for a defending Zumy.</p>
+
+<p>These nodes collects information from <code>tf</code> and call <code>tf.lookupTransform</code> to get the coordinates in the coordinate system of the origin ARTag and then convert them into the grid coordinates. They also call functions in <code>exp_quat_func.py</code> (not shown in the picture) to do some other conversions.</p>
+
+<p><code>zumy_control.py</code> contains the position controller, whose behavior is described in <a href="#the-position-controller">another section</a>. The code is shared among the ROS nodes. But each ROS node has its own instance of the controller so that they can control different Zumys.</p>
+
+<p><code>pf.py</code> (not shown in the picture) contains some general operations regarding potential field. These include:</p>
+
+<ul>
+<li>Convert the potential field to an image (using PIL library).</li>
+<li>Find the next step for a given potential field and a source point.</li>
+<li>Plan the entire path assuming that all obstacles are static.</li>
+</ul>
+
+<p><code>epf.py</code> and <code>gpf.py</code> (the naming is meaningless) are specific potential field implementations. The former is used when the destination is a single point, so it is used for the attacker to catch the flag as well as for the defender to catch the attacker. The latter has some modifications, and is used for the attacker to return to the home region.</p>
+
+<p>Please see the <a href="https://github.com/ee106a-fa15-team01/flag_catching">GitHub repository</a> for code.</p>
 
 <h2>
 <a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How It Works</h2>
@@ -230,14 +248,14 @@
 <a id="the-potential-field" class="anchor" href="#the-potential-field" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Potential Field</h3>
 
 <ol>
-<li>Using the following function in our code: <br> <img src="eqn1.png" alt="U\_obstacle(q)={(1/sqrt(1+dist(q,obstacle)^6))^2\*dist(q,goal)^2 when dist(q,goal)&amp;lt;p; 0 else}">
+<li>Using the following function in our code: <br> <img src="eqn1.png" alt="U\_obstacle(q)={(1/sqrt(1+dist(q,obstacle)^6))^2\*dist(q,goal)^2 when dist(q,goal)&amp;lt;p; 0 else}"> <br> <img src="eqn2.png" alt="U\_goal(q)=dist(q,goal)^2">
 
 <ul>
 <li>where p is a positive constant denoting the distance of influence of the obstacle.</li>
 </ul>
 </li>
-<li>By properly scaling, the Zumys can keep an appropriate distance from obstacles. <br> <img src="pic5.png" alt="Plot of 1/sqrt(1+x^6)"> The contribution to the potential from an obstacle.</li>
-<li>For the attacking Zumy, the potential field is saved to an image file (<code>out.png</code>) after every path planning. Open the image file while the game is running, and if the image viewer can automatically reloads the image when it is changed (the image viewer on Lab computers seem to have that feature), then the user can see the game state dynamically on the screen.</li>
+<li>By properly scaling, the Zumys can keep an appropriate distance from obstacles. <br> <img src="pic5.png" alt="Plot of 1/sqrt(1+x^6)"> ←The contribution to the potential from an obstacle.</li>
+<li>For the attacking Zumy, the potential field is saved to an image file (<code>out.png</code>) after every path planning. Open the image file while the game is running, and if the image viewer can automatically reloads the image when it is changed (the image viewer on the Lab computers seems to have that feature), then the user can see the game state dynamically on the screen.</li>
 </ol>
 
 <p><img src="pic6.png" alt="Potential Field"></p>
@@ -328,7 +346,7 @@
 <a id="flaws-and-improvements-in-the-future" class="anchor" href="#flaws-and-improvements-in-the-future" aria-hidden="true"><span class="octicon octicon-link"></span></a>Flaws and Improvements in the Future</h1>
 
 <ol>
-<li>A flaw in our design is that when executing a single step, the Zumy is not responding to the changes in the playing area (due to <a href="#descrete-moves">descrete moves</a>).
+<li>A flaw in our design is that when executing a single step, the Zumy is not responding to the changes in the playing area (due to <a href="#discrete-moves">discrete moves</a>).
 
 <ul>
 <li>For example, when the attacking Zumy is turning around, a defending Zumy is comming close. The attacking Zumy will not notice this and keeps rotating, then get caught by the defender.</li>
