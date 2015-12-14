@@ -363,7 +363,7 @@
 <li>The better idea for the attacking Zumy might be that it should give up the current step, stop turning around (and probably do another path planning) and move forward so that it keeps away from the defending Zumy.</li>
 </ul>
 </li>
-<li>All the Zumys should stop immediately instead of finishing its current step then stop after receiving the game over message.
+<li>All the Zumys should stop immediately instead of finishing its current step after receiving the game over message.
 
 <ul>
 <li>This is easy to fix. Just let the position controller check whether the node has received the message.</li>
@@ -373,7 +373,7 @@
 <li>We can implement a kalman filter for better measurement accuracy.</li>
 <li>We can make some modifications to the potential field so that the Zumys will not be trapped at a local minima.<br>
 </li>
-<li>We can try other path planning algorithms so that Zumys in the same side can cooperate.</li>
+<li>We can try other path planning algorithms so that friend Zumys can cooperate.</li>
 </ol>
 
 <h1>
