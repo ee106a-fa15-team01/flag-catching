@@ -123,6 +123,10 @@
 <h3>
 <a id="hardware-constructions" class="anchor" href="#hardware-constructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hardware Constructions</h3>
 
+<p><img src="pic8.jpg" alt="Yang Yue is setting up the playing area"></p>
+
+<p>Yang Yue is setting up the playing area.</p>
+
 <ul>
 <li>
 <a href="https://wiki.eecs.berkeley.edu/biomimetics/Main/Zumy">Zumy</a> is the robot used in this project. It is provided by EECS department in UC Berkeley. <br> <img src="pic7.jpg" alt="Zumy">
@@ -151,6 +155,8 @@
 
 <p>These nodes collects information from <code>tf</code> and call <code>tf.lookupTransform</code> to get the coordinates in the coordinate system of the origin ARTag and then convert them into the grid coordinates. They also call functions in <code>exp_quat_func.py</code> (not shown in the picture) to do some other conversions.</p>
 
+<p>Each node has a subscriber and a publisher to the topic called <code>Game_status</code>. If any of the nodes detects that it wins, it publishes a game-over message to that topic. As a result, all the nodes will receive the message. After receiving the message, each node will stop the Zumy it controls.</p>
+
 <p><code>zumy_control.py</code> contains the position controller, whose behavior is described in <a href="#the-position-controller">another section</a>. The code is shared among the ROS nodes. But each ROS node has its own instance of the controller so that they can control different Zumys.</p>
 
 <p><code>pf.py</code> (not shown in the picture) contains some general operations regarding potential field. These include:</p>
@@ -175,7 +181,7 @@
 <h3>
 <a id="initialization" class="anchor" href="#initialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Initialization</h3>
 
-<p>During initialization, the coordinates of the boundary ARTag are read. Thus the size of the playing area is determined. Then the node will wat the user's signal for game start.</p>
+<p>During initialization, the coordinates of the boundary ARTag are read. Thus the size of the playing area is determined. Then the node will wait for the user's signal for game start.</p>
 
 <h3>
 <a id="run-zumy-nodes" class="anchor" href="#run-zumy-nodes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Run Zumy Nodes</h3>
@@ -217,12 +223,12 @@
 
 <ol>
 <li>It translate the destination grid into the Zumy's coordinate system. We will call the coordinates x and y.</li>
-<li>(Simple filter) If the destination is too far away from the Zumy's current location, considering the fact that the path planner always gives a neighbour grid, we assert that this destination grid is invalid and it might be a result of mesurement errors. We will do nothing in this iteration.</li>
-<li>If the destination is valid, it check if x is positive and the absolute value of y is smaller than a threshold. If so, then the loop will terminate. Otherwise, the controller sends zumy a pure rotational velocity that has the same sign as y.</li>
+<li>(Simple filter) If the destination is too far away from the Zumy's current location, considering the fact that the path planner always gives a neighbour grid, we assert that this destination grid is invalid and it might be a result of mesurement errors. The controller will do nothing in this iteration.</li>
+<li>If the destination is valid, it checks if x is positive and the absolute value of y is smaller than a threshold. If so, then the loop will terminate. Otherwise, the controller sends zumy a pure rotational velocity that has the same sign as y.</li>
 <li>The controller will sleep for 0.1 second before the next iteration.</li>
 </ol>
 </li>
-<li>Then, It loops until the Zumy arrives (within tolerance) at the specified grid. It does almost the same thing except:
+<li>Then, it loops until the Zumy arrives (within tolerance) at the specified grid. It does almost the same thing except:
 
 <ol>
 <li>After applying the simple filter, it checks if x is positive. If not, then the Zumy has arrived and the loop will terminate.</li>
@@ -286,11 +292,15 @@
 <p>We also noticed that the origin tag should be put closer to the rack (camera) for better accuracy.</p>
 
 <h2>
-<a id="final-video-picture" class="anchor" href="#final-video-picture" aria-hidden="true"><span class="octicon octicon-link"></span></a>Final Video, picture</h2>
+<a id="final-video-picture" class="anchor" href="#final-video-picture" aria-hidden="true"><span class="octicon octicon-link"></span></a>Final Video, Picture</h2>
 
-<p><a href="youtu.be/bjnCkLOg994">Final Video</a></p>
+<p><a href="youtu.be/bjnCkLOg994">Final video</a> is on Youtube.</p>
 
 <p>Please note that in the video the attacking Zumy is labeled "runner" and the defending Zumys "catcher".</p>
+
+<p>The <code>rqt_graph</code> we had in the last run:</p>
+
+<p><img src="pic9.png" alt="rqt_graph"></p>
 
 <h1>
 <a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h1>
@@ -323,7 +333,7 @@
 <li>All the Zumys will stop moving after receiving a game over message from <code>Game_status</code> topic (i.e. some Zumy wins).
 
 <ul>
-<li>There is a small drawback: if the game over message is received while a Zumy is executing the last step, it will not stop until the last step is finished. This is not very obvious and Zumys will stop quickly as the last step only take a little time.</li>
+<li>There is a small drawback: if the game over message is received while a Zumy is executing the last step, it will not stop until the last step is finished. This is not very obvious and Zumys will stop quickly as the last step only takes a little time.</li>
 </ul>
 </li>
 </ol>
@@ -367,7 +377,7 @@
 </ol>
 
 <h1>
-<a id="team-members" class="anchor" href="#team-members" aria-hidden="true"><span class="octicon octicon-link"></span></a>Team members</h1>
+<a id="team-members" class="anchor" href="#team-members" aria-hidden="true"><span class="octicon octicon-link"></span></a>Team Members</h1>
 
 <h2>
 <a id="liu-yang" class="anchor" href="#liu-yang" aria-hidden="true"><span class="octicon octicon-link"></span></a>Liu Yang</h2>
