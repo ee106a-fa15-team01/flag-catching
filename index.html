@@ -88,7 +88,7 @@
 
 <p>For a defending robot, the attacking robot corresponds to a low potential while other defending robots each correspond a high potential.</p>
 
-<p>When doing path planning, each robot chooses a neighbour grid such that has the lowest potential as its next step. In this way, the robots tend keep away from the obstacles and get close the its destination.</p>
+<p>When doing path planning, each robot chooses a neighbour grid such that has the lowest potential as its next step. In this way, the robots tend to keep away from the obstacles and get close to its destination.</p>
 
 <p>The path planning is done once a time. We do not have a full path until the game ends.</p>
 
@@ -122,8 +122,10 @@
 <a id="hardware-constructions" class="anchor" href="#hardware-constructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hardware Constructions</h3>
 
 <ul>
-<li>"Zumy" is the robot used in this project. It is provided by EECS department in UC Berkeley. [pic 7]</li>
-<li>N Zumys (N=1,2,3,...) and N+3 ARTags are used. The N ARTags are for the Zumys. The additional 3 ARTags are used for marking the origin point, the flag and the boundary of the playing area. [Pic4]</li>
+<li>
+<a href="https://wiki.eecs.berkeley.edu/biomimetics/Main/Zumy">Zumy</a> is the robot used in this project. It is provided by EECS department in UC Berkeley. <br> <img src="pic7.jpg" alt="Zumy">
+</li>
+<li>N Zumys (N=1,2,3,...) and N+3 ARTags are used. The N ARTags are for the Zumys. The additional 3 ARTags are used for marking the origin point, the flag and the boundary of the playing area.</li>
 <li>The camera is fixed on the top of a coat rack, and put the origin ARTag on the ground and very close to the rack.</li>
 <li>The origin ARTag marks a corner of the playing area. We use the boundary ARTag to mark the opposing corner of the playing area. (The playing area is a rectangle.)</li>
 <li>The ARTags for the Zumys are installed on the top of the Zumys, in such a way that the +x axis points towards zumys' forward direction.</li>
@@ -181,7 +183,7 @@
 
 <p>The position controller works as follows. The attacking Zumy and the defending Zumys share the same controller.</p>
 
-<p>Please note that we have installed the ARTags on Zumys so that the x axis points toward the forward direction.</p>
+<p>Please note that we have installed the ARTags on Zumys so that the x axis points towards the forward direction.</p>
 
 <ol>
 <li>The controller knows which Zumy it is controlling ("the Zumy"). Now it receives a destination grid.</li>
@@ -227,7 +229,9 @@ U_obstacle = 0                              , when p &lt; dist(q, obstacle)</li>
 <li>For the attacking Zumy, the potential field is saved to an image file (<code>out.png</code>) after every path planning. Open the image file while the game is running, and if the image viewer can automatically reloads the image when it is changed (the image viewer on Lab computers seem to have that feature), then the user can see the game state dynamically on the screen.</li>
 </ol>
 
-<p>[pic 6]</p>
+<p><img src="pic6.png" alt="Potential Field"></p>
+
+<p>Note that in the above picture the entire path is drawn. This is only for testing purpose and is not the behavior of the current implementation.</p>
 
 <h1>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h1>
@@ -276,15 +280,16 @@ U_obstacle = 0                              , when p &lt; dist(q, obstacle)</li>
 <li>(-) The new velocity controller for the Zumys also adds to some jerks.</li>
 </ol>
 </li>
-<li>The game is played in a competitive ways in that:
+<li>The game is played in a competitive way, and the Zumys are moving correctly (if not cleverly), because:
 
 <ol>
 <li>(+) Every side has a chance to win.</li>
 <li>(+) The Zumys do not waste time on anything not benefitial (for example, stay still, move in the opposite direction to its target, or waiting for other Zumys to finish a step).</li>
+<li>(+/-) The potential field does not give any clever moves. But since both the attacker and the defender use the potential field, the game is fair and still competitive.</li>
 <li>(-) However, the Zumys are moving slowly due to limited measurement rates. This might make the game look less exciting. If we make the Zumys move faster, then the measurements are not accurate and it is more likely that Zumys will run out of control.</li>
 </ol>
 </li>
-<li>All the Zumys will stop moving after receiving a game over message from <code>Game_status</code> topic, which indicates one of the Zumys declares it wins.
+<li>All the Zumys will stop moving after receiving a game over message from <code>Game_status</code> topic (i.e. some Zumy wins).
 
 <ul>
 <li>There is a small drawback: if the game over message is received while a Zumy is executing the last step, it will not stop until the last step is finished. This is not very obvious and Zumys will stop quickly as the last step only take a little time.</li>
@@ -310,7 +315,7 @@ U_obstacle = 0                              , when p &lt; dist(q, obstacle)</li>
 <a id="flaws-and-improvements-in-the-future" class="anchor" href="#flaws-and-improvements-in-the-future" aria-hidden="true"><span class="octicon octicon-link"></span></a>Flaws and Improvements in the Future</h1>
 
 <ol>
-<li>A flaw in our design is that when executing a single step, the Zumy is not responding to the changes in the playing area.
+<li>A flaw in our design is that when executing a single step, the Zumy is not responding to the changes in the playing area (due to <a href="#descrete-moves">descrete moves</a>).
 
 <ul>
 <li>For example, when the attacking Zumy is turning around, a defending Zumy is comming close. The attacking Zumy will not notice this and keeps rotating, then get caught by the defender.</li>
